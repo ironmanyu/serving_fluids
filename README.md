@@ -1,4 +1,4 @@
-# This repo is for labs
+# This repo is for the project 'Serving fluids'
 
 
 ## Working in this repo
