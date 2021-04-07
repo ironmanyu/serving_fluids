@@ -9,7 +9,7 @@ git clone <Input the HTTPS of the repo>
 ```
 here it should be
 ```
-git clone https://github.com/ironmanyu/robotics_labs.git
+git clone https://github.com/ironmanyu/Serving_fluids.git
 ```
 2. if you have not a branch yet, you need to set up it. If you have a branch already, go to step 4.
 ```
