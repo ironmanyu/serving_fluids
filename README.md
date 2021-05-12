@@ -1,6 +1,13 @@
 # This repo is for the project 'Serving fluids'
 This project is a demo of the Fetch Mobile Manipulator acting as a waiter by serving beverages.
 
+# TODO
+
+- [x] update package.xml
+- [ ] add tuck behavior
+- [ ] add pick behavior
+- [ ] update CMakeLists.txt
+
 ## Working in this repo (pretty meta)
 
 This is a Git repository (repo). Git is a distributed version control system. Basically, Git is a tool to keep track of different versions of our code.
