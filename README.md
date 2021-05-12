@@ -1,40 +1,16 @@
 # This repo is for the project 'Serving fluids'
-
+This project is a demo of the Fetch Mobile Manipulator acting as a waiter by serving beverages.
 
 ## Working in this repo
+(pretty meta)
 
-1. Git clone the repo
-```
-git clone <Input the HTTPS of the repo>
-```
-here it should be
-```
-git clone https://github.com/ironmanyu/Serving_fluids.git
-```
-2. if you have not a branch yet, you need to set up it. If you have a branch already, go to step 4.
-```
-git checkout -b <your account, for example zhitaoyu/testGitHub>
-```
-3. Show your current branch: git branch shows your current branch
-```
-git branch
-```
-Note: always check which branch you are on and if it is the correct branch to push before run git push
+This is a Git repository (repo). Git is a distributed version control system. Basically, Git is a tool to keep track of different versions of our code. [Learn how to use Git](https://guides.github.com/introduction/git-handbook/)
 
-4. Do any operations you like such as create a .txt file. Add existing files to the repository : 
-```
-git add .
- ```
- 
-5. Commit this repository for the first time :
-```
-git commit -m "First commit"
-```
+This Git repo is hosted on GitHub. GitHub is a website for hosting Git repos. [Learn how to use GitHub](https://guides.github.com/introduction/git-handbook/)
 
-6. Push your commit to your branch on github.
-```
-git push
-```
-Note: if it is newly created branch run 'git push --set-upstream origin zhitaoyu/testGitHub' to push your changes. 
+In this repository, we follow the GitHub flow workflow. GitHub flow is development workflow that involves creating branches for new features. The golden rule of the workflow is **NEVER BREAK MAIN**. Never breaking main means that the code in the main branch should always work. In order to avoid breaking main, we create new branches when we want to add new features. We do all of the development work in the new branch. Once we have finished the new feature and made sure it works, we can merge our changes to the main branch. [Learn more about GitHub flow](https://guides.github.com/introduction/flow/)
 
+
+(very meta)
+This README file is written in [GitHub Flavored Markdown](https://github.github.com/gfm/). You can tell that it is a markdown file by the .md file extension at the end of the filename README.md. Markdown is simple markup format for formatting documents, written in plaintext and meant to be human readable in raw form. GitHub Flavored Markdown is the Markdown dialect used on GitHub.com. [Learn how to write GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/)
 
