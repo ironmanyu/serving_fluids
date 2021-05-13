@@ -1,6 +1,6 @@
 
-# Created by https://www.toptal.com/developers/gitignore/api/python,ros
-# Edit at https://www.toptal.com/developers/gitignore?templates=python,ros
+# Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,python,ros
+# Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,python,ros
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
@@ -204,4 +204,17 @@ qtcreator-*
 # Catkin custom files
 CATKIN_IGNORE
 
-# End of https://www.toptal.com/developers/gitignore/api/python,ros
+### VisualStudioCode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+### VisualStudioCode Patch ###
+# Ignore all local history of files
+.history
+.ionide
+
+# End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,python,ros
