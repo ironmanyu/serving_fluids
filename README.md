@@ -12,26 +12,26 @@ This project is a demo of the Fetch Mobile Manipulator acting as a waiter by ser
 ## Pick
 The robot will pick up a red coke can.
 ### Approach
-1. The robot finds the coke can in the camera image using OpenCV
-2. The robot points the camera towards the coke can to get a better image
-3. The robot scans the environment and adds it to the planning scene as an obstacle, except the can
-5. The robot reaches out to pick up the can, with the arm facing forwards
-6. The robot moves its hand around the can
-7. The robot grabs the can
-8. The robot lifts the can off of the table
-9. The robot moves the can and arm into a configuration for moving around
+- [ ] The robot finds the coke can in the camera image using OpenCV
+- [ ] The robot points the camera towards the coke can to get a better image
+- [ ] The robot scans the environment and adds it to the planning scene as an obstacle, except the can
+- [ ] The robot reaches out to pick up the can, with the arm facing forwards
+- [ ] The robot moves its hand around the can
+- [ ] The robot grabs the can
+- [ ] The robot lifts the can off of the table
+- [ ] The robot moves the can and arm into a configuration for moving around
 
 ## Place
 The robot will place the coke can on the table
 ### Approach
-1. The robot scans the environment and adds it to the planning scene as an obstacle
-2. The robot identifies the surface of the table
-3. The robot moves the can to a point just above the table
-4. The robot lowers the can onto the table
-5. The robot releases the can
-6. The robot moves its gripper away from the can
-7. The robot scans the environment and adds it to the planning scene as an obstacle, including the can
-8. The robot tucks its arm
+- [ ] The robot scans the environment and adds it to the planning scene as an obstacle
+- [ ] The robot identifies the surface of the table
+- [ ] The robot moves the can to a point just above the table
+- [ ] The robot lowers the can onto the table
+- [ ] The robot releases the can
+- [ ] The robot moves its gripper away from the can
+- [ ] The robot scans the environment and adds it to the planning scene as an obstacle, including the can
+- [ ] The robot tucks its arm
 
 ## Working in this repo (pretty meta)
 
