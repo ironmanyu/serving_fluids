@@ -1,6 +1,6 @@
-# stow.py
+# place.py
 # author: James Muir - jdmuir@uw.edu
-# hold.py makes the robot move the object its grasping to a good position for moving around
+# place.py makes the robot place the object on a table
 # assumptions: the robot is holding an object, the object should be held upright
 
 # rospy for the subscriber
@@ -54,7 +54,7 @@ def clear_planning_scene(PSI):
         PSI.removeAttachedObject(attached_object)
 
 def main():
-    # TODO: The robot scans the environment and adds it to the planning scene as an obstacle, except the can
+    # TODO: The robot scans the environment and adds it to the planning scene as an obstacle
 
     # set up collsion objects in MoveIt
 
@@ -82,9 +82,9 @@ def main():
 
     # create new holding pose
     target_frame = "base_link"
-    position = Point(0.173315, -0.171359, 0.444913)
+    position = Point(0.3, 0.0, 1.0)
     # pointing right (along negative y axis), gripper horizontal
-    orientation = Quaternion(0.0, 0.0, -math.sqrt(2)/2, math.sqrt(2)/2)
+    orientation = Quaternion(0.0, 0.0, 0.0, 0.0)
     pose = Pose(position, orientation)
     pose_stamped = PoseStamped()
     pose_stamped.header.frame_id = target_frame
@@ -94,11 +94,15 @@ def main():
     # set up the shutdown callback, so incomplete goals get cancelled on shutdown
     rospy.on_shutdown(move_group.get_move_action().cancel_all_goals)
     
-    # move the arm to the stowed position
+    # move the arm to the place position
     go_to_pose(pose_stamped, move_group, gripper_frame)
 
+    # drop the can
+    gripper = fetch_api.Gripper()
+    gripper.open()
+
 if __name__ == '__main__':
-    # start the stow node
-    rospy.init_node('stow')
+    # start the place node
+    rospy.init_node('place')
     main()
     rospy.signal_shutdown('Done!')

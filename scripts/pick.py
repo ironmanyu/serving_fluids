@@ -113,9 +113,6 @@ def clear_planning_scene(PSI):
         PSI.removeAttachedObject(attached_object)
 
 def main():
-    # start the pick node
-    rospy.init_node('pick')
-
     # make sure gripper is open for grasping
     gripper = fetch_api.Gripper()
     gripper.open()
@@ -236,8 +233,10 @@ def main():
     above_table = copy.deepcopy(at_can)
     above_table.pose.position.z += 0.05 # 5 cm
     go_to_pose(above_table, move_group, gripper_frame)
-
-    rospy.signal_shutdown('Done!')
+    
 
 if __name__ == '__main__':
+    # start the pick node
+    rospy.init_node('pick')
     main()
+    rospy.signal_shutdown('Done!')
