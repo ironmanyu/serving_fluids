@@ -3,6 +3,9 @@ import fetch_api
 from fetch_api import Arm, Base, Gripper, Head, Torso, ArmJoints
 import math
 
+# my nodes
+import pick
+
 # start the node
 rospy.init_node("milestone_1")
 
@@ -20,6 +23,9 @@ torso.set_height(torso.MAX_HEIGHT)
 head.pan_tilt(0, math.pi/5)
 
 # TODO: run the pick routine
+pick.main()
+
+# TODO: run the hold routine
 
 # TODO: run the place routine
 

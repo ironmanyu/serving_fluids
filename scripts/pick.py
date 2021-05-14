@@ -1,3 +1,10 @@
+# pick.py
+# author: James Muir - jdmuir@uw.edu
+# pick.py makes the robot pick up a can
+# assumptions: the can is a red coke can, the can is vertical,
+# the robot can see the can, the robot can reach the can
+
+
 # rospy for the subscriber
 import rospy
 # ROS messages
@@ -62,8 +69,8 @@ def segment_image(img):
 
     cv2.circle(obj_seg, (cX, cY), 5, (0, 0, 255), -1)
 
-    # cv2.imshow("Result",obj_seg)
-    # cv2.waitKey(0)
+    cv2.imshow("Result",obj_seg)
+    cv2.waitKey(0)
     cv2.destroyAllWindows()
     return cX, cY, M['m00']
 
@@ -108,10 +115,6 @@ def clear_planning_scene(PSI):
 def main():
     # start the pick node
     rospy.init_node('pick')
-    
-    # make sure arm is out of the way of the camera
-    arm = fetch_api.Arm()
-    arm.tuck()
 
     # make sure gripper is open for grasping
     gripper = fetch_api.Gripper()
@@ -134,8 +137,8 @@ def main():
     except CvBridgeError, e:
         print(e)
     else:
-        # cv2.imshow("Image",cv2_color_img)
-        # cv2.waitKey(0) 
+        cv2.imshow("Image",cv2_color_img)
+        cv2.waitKey(0) 
 
         #closing all open windows 
         cv2.destroyAllWindows()
@@ -187,6 +190,11 @@ def main():
     ground_thickness = .1
     planning_scene_base_link.addBox("ground", 3, 3, ground_thickness, 0, 0, -ground_thickness/2)
 
+    # add can
+    # the can coordinates are relative to the base link
+    # the dimensions are those of a standard coke can
+    planning_scene_base_link.addCylinder("can", 12.2/100, 3.25/100, point_wrt_target[0], point_wrt_target[1], point_wrt_target[2])
+
     # TODO: make sure this actually places the table relative to the world
     # clear_planning_scene seems to clear all collision objects
     # regardless of which PlanningSceneObject you pass it
@@ -197,9 +205,6 @@ def main():
     table_height = 1.0
     planning_scene_odom.addBox("table", 0.8, 2.0, table_height, 0.9, 0.115788, table_height/2.0)
 
-    # add can
-    planning_scene_odom.addCylinder("can", 12.2/100, 3.25/100, point_wrt_target[0], point_wrt_target[1], point_wrt_target[2])
-
 
     # turn the can position into a gripping pose
     position = Point(point_wrt_target[0], point_wrt_target[1], point_wrt_target[2])
@@ -209,17 +214,19 @@ def main():
     pose_stamped.header.frame_id = target_frame
     pose_stamped.pose = pose
     gripper_frame = 'gripper_link'
-    move_group = MoveGroupInterface("arm", "base_link")
+    move_group = MoveGroupInterface("arm", target_frame)
+    # set up the shutdown callback, so incomplete goals get cancelled on shutdown
+    rospy.on_shutdown(move_group.get_move_action().cancel_all_goals)
     
-    # TODO: The robot reaches out to pick up the can, with the arm facing forwards
+    # The robot reaches out to pick up the can, with the arm facing forwards
     in_front = copy.deepcopy(pose_stamped)
     in_front.pose.position.x += -0.05 # backward 5 cm
     go_to_pose(in_front, move_group, gripper_frame)
 
     # TODO: The robot moves its hand around the can
-    planning_scene_odom.removeCollisionObject("can")
+    planning_scene_base_link.removeCollisionObject("can")
     at_can = copy.deepcopy(in_front)
-    at_can.pose.position.x += 0.05 # forward 3 cm
+    at_can.pose.position.x += 0.06 # forward 6 cm
     go_to_pose(at_can, move_group, gripper_frame)
 
     # TODO: The robot grabs the can
@@ -229,18 +236,6 @@ def main():
     above_table = copy.deepcopy(at_can)
     above_table.pose.position.z += 0.05 # 5 cm
     go_to_pose(above_table, move_group, gripper_frame)
-
-    # TODO: The robot moves the can and arm into a configuration for moving around
-    move_pose = copy.deepcopy(above_table)
-    move_pose.pose.position.x += -0.10 # backwards 10 cm
-    go_to_pose(move_pose, move_group, gripper_frame)
-
-    # tuck the arm
-    arm.tuck()
-
-    # This stops all arm movement goals
-    # It should be called when a program is exiting so movement stops
-    move_group.get_move_action().cancel_all_goals()
 
     rospy.signal_shutdown('Done!')
 
