@@ -7,11 +7,13 @@ This project is a demo of the Fetch Mobile Manipulator acting as a waiter by ser
 - [ ] add tuck behavior
 - [ ] add place behavior
 - [ ] add pick behavior
+- [ ] add actual furniture to GIX world
 - [ ] update CMakeLists.txt
 
 ### Strech Goals
 - [ ] create a node to publish the position of the can as a transform
 - [ ] attach can to arm in MoveIt so the motion planning doesn't crash the can into anything
+- [ ] add octomap support so the robot can dynamically plan around obstructions
 
 ## Pick
 The robot will pick up a red coke can.
