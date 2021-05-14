@@ -9,6 +9,10 @@ This project is a demo of the Fetch Mobile Manipulator acting as a waiter by ser
 - [ ] add pick behavior
 - [ ] update CMakeLists.txt
 
+### Strech Goals
+- [ ] create a node to publish the position of the can as a transform
+- [ ] attach can to arm in MoveIt so the motion planning doesn't crash the can into anything
+
 ## Pick
 The robot will pick up a red coke can.
 ### Approach
