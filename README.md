@@ -4,9 +4,9 @@ This project is a demo of the Fetch Mobile Manipulator acting as a waiter by ser
 ## TODO
 
 - [x] update package.xml
-- [ ] add tuck behavior
-- [ ] add place behavior
-- [ ] add pick behavior
+- [x] add stow behavior
+- [x] add place behavior
+- [x] add pick behavior
 - [ ] add actual furniture to GIX world
 - [ ] update CMakeLists.txt
 
@@ -26,6 +26,12 @@ The robot will pick up a red coke can.
 - [ ] The robot grabs the can
 - [ ] The robot lifts the can off of the table
 - [ ] The robot moves the can and arm into a configuration for moving around
+
+## Stow
+The robot will move the can to a good position for moving.
+### Approach
+- [ ] The robot scans the environment and adds it to the planning scene as an obstacle
+- [ ] The robot moves the can to the stowed position
 
 ## Place
 The robot will place the coke can on the table
