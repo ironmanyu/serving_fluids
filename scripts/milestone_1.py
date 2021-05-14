@@ -1,6 +1,7 @@
 import rospy
 import fetch_api
 from fetch_api import Arm, Base, Gripper, Head, Torso, ArmJoints
+import math
 
 # start the node
 rospy.init_node("milestone_1")
@@ -14,6 +15,9 @@ torso = Torso()
 
 # raise the robot up
 torso.set_height(torso.MAX_HEIGHT)
+
+# point head at table
+head.pan_tilt(0, math.pi/5)
 
 # TODO: run the pick routine
 

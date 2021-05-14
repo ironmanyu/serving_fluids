@@ -22,7 +22,7 @@
 
   <!-- Oh, you wanted a robot? -->
   <include file="$(find fetch_gazebo)/launch/include/$(arg robot).launch.xml">
-    <arg name="x" value="0.0" />
+    <arg name="x" value="0.2" />
     <arg name="y" value="0.0" />
     <arg name="z" value="0.0" />
     <arg name="yaw" value="0.0" />
@@ -32,5 +32,8 @@
   <include file="$(find fetch_moveit_config)/launch/move_group.launch" >
     <arg name="info" value="true"/><!-- publish grasp markers -->
   </include>
+
+  <!-- Start RViz -->
+  <node type="rviz" name="rviz" pkg="rviz" args="-d $(find Serving_fluids)/config/milestone_1.rviz" />
 
 </launch>
