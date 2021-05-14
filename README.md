@@ -33,6 +33,18 @@ The robot will place the coke can on the table
 - [ ] The robot scans the environment and adds it to the planning scene as an obstacle, including the can
 - [ ] The robot tucks its arm
 
+## Running Instructions
+1. 
+
+## Installation Instructions
+1. Install Unbuntu 18.04: https://releases.ubuntu.com/18.04.5/?_ga=2.106856195.1054129880.1620949916-1656213416.1620949916
+2. Install ROS Melodic: http://wiki.ros.org/melodic/Installation/Ubuntu
+3. Install Fetch Gazebo simulation packages: https://docs.fetchrobotics.com/gazebo.html
+4. Set up a Catkin workspace: https://docs.fetchrobotics.com/gazebo.html
+5. Clone this repository in to the /src directory in the Catkin workspace
+6. Build the Catkin workspace: run `catkin_make' in your Catkin workspace directory
+7. Run `source devel/setup.bash` in your Catkin workspace directory
+
 ## Working in this repo (pretty meta)
 
 This is a Git repository (repo). Git is a distributed version control system. Basically, Git is a tool to keep track of different versions of our code.
