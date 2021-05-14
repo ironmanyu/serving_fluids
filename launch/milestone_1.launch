@@ -31,9 +31,8 @@
     <!-- Start MoveIt -->
   <include file="$(find fetch_moveit_config)/launch/move_group.launch" >
     <arg name="info" value="true"/><!-- publish grasp markers -->
+    <arg name="allow_active_sensing" value="true"/><!-- Octomap -->
   </include>
-
-  <!-- Octomap -->
 
   <!-- Start RViz -->
   <node type="rviz" name="rviz" pkg="rviz" args="-d $(find Serving_fluids)/config/milestone_1.rviz" />
