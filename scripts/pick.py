@@ -62,8 +62,8 @@ def segment_image(img):
 
     cv2.circle(obj_seg, (cX, cY), 5, (0, 0, 255), -1)
 
-    cv2.imshow("Result",obj_seg)
-    cv2.waitKey(0)
+    # cv2.imshow("Result",obj_seg)
+    # cv2.waitKey(0)
     cv2.destroyAllWindows()
     return cX, cY, M['m00']
 
@@ -95,6 +95,16 @@ def go_to_pose(pose, move_group, gripper_frame):
 
     return result
 
+def clear_planning_scene(PSI):
+    # clears all of the objects in a given Planning Scene Interface (PSI)
+    old_collision_objects = PSI.getKnownCollisionObjects()
+    for collision_object in old_collision_objects:
+        PSI.removeCollisionObject(collision_object)
+
+    old_attached_objects = PSI.getKnownAttachedObjects()
+    for attached_object in old_attached_objects:
+        PSI.removeAttachedObject(attached_object)
+
 def main():
     # start the pick node
     rospy.init_node('pick')
@@ -124,8 +134,8 @@ def main():
     except CvBridgeError, e:
         print(e)
     else:
-        cv2.imshow("Image",cv2_color_img)
-        cv2.waitKey(0) 
+        # cv2.imshow("Image",cv2_color_img)
+        # cv2.waitKey(0) 
 
         #closing all open windows 
         cv2.destroyAllWindows()
@@ -135,22 +145,6 @@ def main():
     print "Centroid, x: ", cX, "y: ", cY
     print "Area: ", area
     
-    # TODO: The robot points the camera towards the coke can to get a better image
-
-    # TODO: The robot scans the environment and adds it to the planning scene as an obstacle, except the can
-    # MoveIt!
-
-    # so the robot doesn't smash the ground
-    planning_scene = PlanningSceneInterface("base_link")
-    planning_scene.removeCollisionObject("my_front_ground")
-    planning_scene.removeCollisionObject("my_back_ground")
-    planning_scene.removeCollisionObject("my_right_ground")
-    planning_scene.removeCollisionObject("my_left_ground")
-    planning_scene.addCube("my_front_ground", 2, 1.1, 0.0, -1.0)
-    planning_scene.addCube("my_back_ground", 2, -1.2, 0.0, -1.0)
-    planning_scene.addCube("my_left_ground", 2, 0.0, 1.2, -1.0)
-    planning_scene.addCube("my_right_ground", 2, 0.0, -1.2, -1.0)
-
     # convert from 2D image coordinates to 3D spatial coordinates
     # using the camera depth cloud and transforms
 
@@ -175,40 +169,78 @@ def main():
     # 2) import fetch_api and use arm class to provide Pose stamped as goal to the gripper
     # 3) draw from helper function from first course to move fetch to a given pose
 
-    # TODO: The robot reaches out to pick up the can, with the arm facing forwards
+    # TODO: The robot points the camera towards the coke can to get a better image
+
+    # TODO: The robot scans the environment and adds it to the planning scene as an obstacle, except the can
+
+    # set up collsion objects in MoveIt
+
+    # remove old then add new collsion objects
+
+    # planning scene relative to robot
+    planning_scene_base_link = PlanningSceneInterface("base_link")
+    # get rid of old objects
+    clear_planning_scene(planning_scene_base_link)
+
+    # add ground
+    # planning_scene.addCube("ground", 2, 1.1, 0.0, -1.0)
+    ground_thickness = .1
+    planning_scene_base_link.addBox("ground", 3, 3, ground_thickness, 0, 0, -ground_thickness/2)
+
+    # TODO: make sure this actually places the table relative to the world
+    # clear_planning_scene seems to clear all collision objects
+    # regardless of which PlanningSceneObject you pass it
+    # planning scene relative to the world
+    planning_scene_odom = PlanningSceneInterface("odom")
+    
+    # add table
+    table_height = 1.0
+    planning_scene_odom.addBox("table", 0.8, 2.0, table_height, 0.9, 0.115788, table_height/2.0)
+
+    # add can
+    planning_scene_odom.addCylinder("can", 12.2/100, 3.25/100, point_wrt_target[0], point_wrt_target[1], point_wrt_target[2])
+
+
+    # turn the can position into a gripping pose
     position = Point(point_wrt_target[0], point_wrt_target[1], point_wrt_target[2])
-    orientation = Quaternion(0.0, 0.0, 0.0, 1.0)
+    orientation = Quaternion(0.0, 0.0, 0.0, 1.0) # straight forward, gripper horizontal
     pose = Pose(position, orientation)
     pose_stamped = PoseStamped()
     pose_stamped.header.frame_id = target_frame
     pose_stamped.pose = pose
-    # pose_stamped.pose.position.z += 0.02 # so the planner stops failing
-
-    pose_stamped_in_front = copy.deepcopy(pose_stamped)
-    # pose_stamped_in_front.pose.position.x += -0.03 # 3 cm
-
     gripper_frame = 'gripper_link'
     move_group = MoveGroupInterface("arm", "base_link")
-
-    go_to_pose(pose_stamped_in_front, move_group, gripper_frame)
+    
+    # TODO: The robot reaches out to pick up the can, with the arm facing forwards
+    in_front = copy.deepcopy(pose_stamped)
+    in_front.pose.position.x += -0.05 # backward 5 cm
+    go_to_pose(in_front, move_group, gripper_frame)
 
     # TODO: The robot moves its hand around the can
+    planning_scene_odom.removeCollisionObject("can")
+    at_can = copy.deepcopy(in_front)
+    at_can.pose.position.x += 0.05 # forward 3 cm
+    go_to_pose(at_can, move_group, gripper_frame)
+
     # TODO: The robot grabs the can
+    gripper.close()
+
     # TODO: The robot lifts the can off of the table
+    above_table = copy.deepcopy(at_can)
+    above_table.pose.position.z += 0.05 # 5 cm
+    go_to_pose(above_table, move_group, gripper_frame)
+
     # TODO: The robot moves the can and arm into a configuration for moving around
+    move_pose = copy.deepcopy(above_table)
+    move_pose.pose.position.x += -0.10 # backwards 10 cm
+    go_to_pose(move_pose, move_group, gripper_frame)
 
-    # grab object
-    # gripper.close()
-
-    # pick up object
+    # tuck the arm
     arm.tuck()
 
     # This stops all arm movement goals
     # It should be called when a program is exiting so movement stops
     move_group.get_move_action().cancel_all_goals()
-    
-    # Spin until ctrl + c. You can also choose to spin once
-    # rospy.sleep(0.5)
 
     rospy.signal_shutdown('Done!')
 
