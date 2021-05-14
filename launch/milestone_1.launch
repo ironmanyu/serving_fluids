@@ -34,7 +34,7 @@
   </include>
 
   <!-- Octomap -->
-  <rosparam command="load" file="$(find Serving_fluids)/config/sensors_kinect_pointcloud.yaml" />
+  <rosparam command="load" file="$(find Serving_fluids)/config/sensors_camera_depthmap.yaml" />
   <param name="octomap_frame" type="string" value="odom_combined" />
   <param name="octomap_resolution" type="double" value="0.05" />
   <param name="max_range" type="double" value="5.0" />
