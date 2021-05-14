@@ -34,7 +34,10 @@ The robot will place the coke can on the table
 - [ ] The robot tucks its arm
 
 ## Running Instructions
-1. 
+1. Navigate to your Catkin workspace directory using `cd`
+2. Run `source devel/setup.bash`
+3. Run `roscd Serving_fluids`
+4. Run `roslaunch launch/milestone1.launch`
 
 ## Installation Instructions
 1. Install Unbuntu 18.04: https://releases.ubuntu.com/18.04.5/?_ga=2.106856195.1054129880.1620949916-1656213416.1620949916
@@ -43,7 +46,7 @@ The robot will place the coke can on the table
 4. Set up a Catkin workspace: https://docs.fetchrobotics.com/gazebo.html
 5. Clone this repository in to the /src directory in the Catkin workspace
 6. Build the Catkin workspace: run `catkin_make' in your Catkin workspace directory
-7. Run `source devel/setup.bash` in your Catkin workspace directory
+7. 
 
 ## Working in this repo (pretty meta)
 
