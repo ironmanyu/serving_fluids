@@ -14,6 +14,11 @@
   <url>https://github.com/ironmanyu/Serving_fluids</url>
   
   <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>rospy</build_depend>
+  <build_depend>gazebo_ros</build_depend>
+
+  <run_depend>rospy</run_depend>
+  <run_depend>gazebo_ros</run_depend>
 
   <run_depend>actionlib</run_depend>
   <run_depend>fetch_gazebo</run_depend>
@@ -23,4 +28,8 @@
   <run_depend>moveit_python</run_depend>
   <run_depend>simple_grasping</run_depend>
   <run_depend>teleop_twist_keyboard</run_depend>
+
+  <export>
+    <gazebo_ros gazebo_model_path="${prefix}/models"/>
+  </export>
 </package>
