@@ -1,6 +1,6 @@
 <?xml version='1.0'?>
 <sdf version='1.6'>
-  <model name='floorplan'>
+  <model name='coffee_table'>
     <link name='link'>
       <inertial>
         <mass>150</mass>
@@ -23,7 +23,7 @@
         <pose frame=''>0.0 0.0 0 0 -0 0</pose>
         <geometry>
           <mesh>
-            <uri>model://floorplan/meshes/gix216plus.dae</uri>
+            <uri>model://coffee_table/meshes/round_table_mm.dae</uri>
           </mesh>
         </geometry>
         <transparency>0</transparency>
@@ -35,7 +35,7 @@
         <pose frame=''>0.0 0.0 0 0 -0 0</pose>
         <geometry>
           <mesh>
-            <uri>model://floorplan/meshes/gix216plus.dae</uri>
+            <uri>model://coffee_table/meshes/round_table_mm.dae</uri>
             <scale>1 1 1</scale>
           </mesh>
         </geometry>
