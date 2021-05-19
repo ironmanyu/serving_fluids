@@ -14,10 +14,14 @@ This project is a demo of the Fetch Mobile Manipulator acting as a waiter by ser
 7. Build the Catkin workspace: run `catkin_make` in your Catkin workspace directory
 
 ## Launch Instructions
-### Milestone 1
+### General
+Before starting any of the demos, do the following:
 1. Navigate to your Catkin workspace directory using `cd`
 2. Run `source devel/setup.bash`
-3. Run `roslaunch Serving_fluids milestone_1.launch`
+### Milestone 1
+1. Run `roslaunch Serving_fluids milestone_1.launch`
+### Milestone 2
+2. Run `roslaunch Serving_fluids milestone_2.launch`
 
 ## Working in this repo (pretty meta)
 
