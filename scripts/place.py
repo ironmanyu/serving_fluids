@@ -17,7 +17,7 @@ import math
 # Fetch + MoveIt!
 # see https://docs.fetchrobotics.com/manipulation
 from moveit_msgs.msg import MoveItErrorCodes
-from moveit_python import MoveGroupInterface, PlanningSceneInterface
+from moveit_python import MoveGroupInterface
 from geometry_msgs.msg import PoseStamped, Pose, Point, Quaternion
 
 import copy
@@ -46,11 +46,11 @@ def go_to_pose(pose, move_group, gripper_frame):
 def main():
     # TODO: The robot scans the environment and adds it to the planning scene as an obstacle
 
-    # create new holding pose
+    # create new placing pose
     target_frame = "base_link"
-    position = Point(0.3, 0.0, 1.0)
+    position = Point(0.75, 0.2, 0.85)
     # pointing right (along negative y axis), gripper horizontal
-    orientation = Quaternion(0.0, 0.0, 0.0, 0.0)
+    orientation = Quaternion(0.0, 0.0, 0.0, 1.0)
     pose = Pose(position, orientation)
     pose_stamped = PoseStamped()
     pose_stamped.header.frame_id = target_frame

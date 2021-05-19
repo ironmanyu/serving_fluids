@@ -37,8 +37,9 @@ torso = Torso()
 # drive forward to get to table
 # we have to spawn the robot at a distance from the table
 # because its arm starts pointing straight ahead
-print("driving to start position")
-base.go_forward(1.1) # 1.1 m #
+print("driving to table")
+start_distance = 1.1 # 1.1 m
+base.go_forward(start_distance)
 
 # raise the robot up
 print("raising torso")
@@ -88,5 +89,9 @@ arm.tuck()
 # lower the robot
 print("lowering torso")
 torso.set_height(torso.MIN_HEIGHT)
+
+# drive back to starting positoin
+print("driving back to starting position")
+base.go_forward(-start_distance)
 
 rospy.signal_shutdown('Done!')

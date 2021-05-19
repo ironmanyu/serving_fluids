@@ -70,8 +70,8 @@ def segment_image(img):
     cv2.circle(obj_seg, (cX, cY), 5, (0, 0, 255), -1)
 
     # cv2.imshow("Result",obj_seg)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+    # cv2.waitKey(0)
+    # cv2.destroyAllWindows()
     return cX, cY, M['m00']
 
 def get_XYZ(msg_pcl,cX,cY):
@@ -125,10 +125,10 @@ def main():
         print(e)
     else:
         # cv2.imshow("Image",cv2_color_img)
-        cv2.waitKey(0) 
-
+        # cv2.waitKey(0) 
         #closing all open windows 
-        cv2.destroyAllWindows()
+        # cv2.destroyAllWindows()
+        pass
 
     cX,cY,area = segment_image(cv2_color_img)
 
