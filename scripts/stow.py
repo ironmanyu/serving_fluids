@@ -43,42 +43,8 @@ def go_to_pose(pose, move_group, gripper_frame):
 
     return result
 
-def clear_planning_scene(PSI):
-    # clears all of the objects in a given Planning Scene Interface (PSI)
-    old_collision_objects = PSI.getKnownCollisionObjects()
-    for collision_object in old_collision_objects:
-        PSI.removeCollisionObject(collision_object)
-
-    old_attached_objects = PSI.getKnownAttachedObjects()
-    for attached_object in old_attached_objects:
-        PSI.removeAttachedObject(attached_object)
-
 def main():
     # TODO: The robot scans the environment and adds it to the planning scene as an obstacle, except the can
-
-    # set up collsion objects in MoveIt
-
-    # remove old then add new collsion objects
-
-    # planning scene relative to robot
-    planning_scene_base_link = PlanningSceneInterface("base_link")
-    # get rid of old objects
-    clear_planning_scene(planning_scene_base_link)
-
-    # add ground
-    # planning_scene.addCube("ground", 2, 1.1, 0.0, -1.0)
-    ground_thickness = .1
-    planning_scene_base_link.addBox("ground", 3, 3, ground_thickness, 0, 0, -ground_thickness/2)
-
-    # TODO: make sure this actually places the table relative to the world
-    # clear_planning_scene seems to clear all collision objects
-    # regardless of which PlanningSceneObject you pass it
-    # planning scene relative to the world
-    planning_scene_odom = PlanningSceneInterface("odom")
-    
-    # add table
-    table_height = 1.0
-    planning_scene_odom.addBox("table", 0.8, 2.0, table_height, 0.9, 0.115788, table_height/2.0)
 
     # create new holding pose
     target_frame = "base_link"
@@ -95,6 +61,7 @@ def main():
     rospy.on_shutdown(move_group.get_move_action().cancel_all_goals)
     
     # move the arm to the stowed position
+    print("stowing the can")
     go_to_pose(pose_stamped, move_group, gripper_frame)
 
 if __name__ == '__main__':

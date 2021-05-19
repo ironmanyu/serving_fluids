@@ -8,6 +8,10 @@
 - [x] add actual furniture to GIX world
     - [x] change GIX world to include built in furniture
     - [x] spawn cup in milestone-1.launch
+    - [x] spawn cup in correct positoin
+    - [x] spawn robot in correct position
+    - [x] drive robot to correct position after arm folds up
+- [ ] make milestone_1.py run on launch
 ### Strech Goals
 - [ ] create a node to publish the position of the can as a transform
 - [ ] attach can to arm in MoveIt so the motion planning doesn't crash the can into anything
@@ -16,14 +20,13 @@
 ## Pick
 The robot will pick up a red coke can.
 ### Approach
-- [ ] The robot finds the coke can in the camera image using OpenCV
+- [x] The robot finds the coke can in the camera image using OpenCV
 - [ ] The robot points the camera towards the coke can to get a better image
 - [ ] The robot scans the environment and adds it to the planning scene as an obstacle, except the can
-- [ ] The robot reaches out to pick up the can, with the arm facing forwards
-- [ ] The robot moves its hand around the can
-- [ ] The robot grabs the can
-- [ ] The robot lifts the can off of the table
-- [ ] The robot moves the can and arm into a configuration for moving around
+- [x] The robot reaches out to pick up the can, with the arm facing forwards
+- [x] The robot moves its hand around the can
+- [x] The robot grabs the can
+- [x] The robot lifts the can off of the table
 
 ## Stow
 The robot will move the can to a good position for moving.
@@ -36,9 +39,9 @@ The robot will place the coke can on the table
 ### Approach
 - [ ] The robot scans the environment and adds it to the planning scene as an obstacle
 - [ ] The robot identifies the surface of the table
-- [ ] The robot moves the can to a point just above the table
+- [x] The robot moves the can to a point just above the table
 - [ ] The robot lowers the can onto the table
-- [ ] The robot releases the can
-- [ ] The robot moves its gripper away from the can
+- [x] The robot releases the can
+- [x] The robot moves its gripper away from the can
 - [ ] The robot scans the environment and adds it to the planning scene as an obstacle, including the can
 - [ ] The robot tucks its arm

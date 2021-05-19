@@ -69,7 +69,7 @@ def segment_image(img):
 
     cv2.circle(obj_seg, (cX, cY), 5, (0, 0, 255), -1)
 
-    cv2.imshow("Result",obj_seg)
+    # cv2.imshow("Result",obj_seg)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
     return cX, cY, M['m00']
@@ -102,16 +102,6 @@ def go_to_pose(pose, move_group, gripper_frame):
 
     return result
 
-def clear_planning_scene(PSI):
-    # clears all of the objects in a given Planning Scene Interface (PSI)
-    old_collision_objects = PSI.getKnownCollisionObjects()
-    for collision_object in old_collision_objects:
-        PSI.removeCollisionObject(collision_object)
-
-    old_attached_objects = PSI.getKnownAttachedObjects()
-    for attached_object in old_attached_objects:
-        PSI.removeAttachedObject(attached_object)
-
 def main():
     # make sure gripper is open for grasping
     gripper = fetch_api.Gripper()
@@ -134,7 +124,7 @@ def main():
     except CvBridgeError, e:
         print(e)
     else:
-        cv2.imshow("Image",cv2_color_img)
+        # cv2.imshow("Image",cv2_color_img)
         cv2.waitKey(0) 
 
         #closing all open windows 
@@ -172,35 +162,19 @@ def main():
     # TODO: The robot points the camera towards the coke can to get a better image
 
     # TODO: The robot scans the environment and adds it to the planning scene as an obstacle, except the can
-
-    # set up collsion objects in MoveIt
-
-    # remove old then add new collsion objects
+    # can use octomap for this, but I believe it involves editing the pointcloud before sending it to octomap
+    # since the map is static, just using fixed collision objects in areas where we are using the arm is probably fine
 
     # planning scene relative to robot
     planning_scene_base_link = PlanningSceneInterface("base_link")
-    # get rid of old objects
-    clear_planning_scene(planning_scene_base_link)
 
-    # add ground
-    # planning_scene.addCube("ground", 2, 1.1, 0.0, -1.0)
-    ground_thickness = .1
-    planning_scene_base_link.addBox("ground", 3, 3, ground_thickness, 0, 0, -ground_thickness/2)
-
-    # add can
+    # add can to planning scene as collision object
     # the can coordinates are relative to the base link
     # the dimensions are those of a standard coke can
-    planning_scene_base_link.addCylinder("can", 12.2/100, 3.25/100, point_wrt_target[0], point_wrt_target[1], point_wrt_target[2])
-
-    # TODO: make sure this actually places the table relative to the world
-    # clear_planning_scene seems to clear all collision objects
-    # regardless of which PlanningSceneObject you pass it
-    # planning scene relative to the world
-    planning_scene_odom = PlanningSceneInterface("odom")
-    
-    # add table
-    table_height = 1.0
-    planning_scene_odom.addBox("table", 0.8, 2.0, table_height, 0.9, 0.115788, table_height/2.0)
+    print("adding coke can as collision object")
+    can_height = 12.2/100 # m
+    can_diameter = 3.25/100 #m
+    planning_scene_base_link.addCylinder("can", can_height, can_diameter, point_wrt_target[0] + can_diameter/2, point_wrt_target[1], point_wrt_target[2])
 
 
     # turn the can position into a gripping pose
@@ -218,20 +192,27 @@ def main():
     # The robot reaches out to pick up the can, with the arm facing forwards
     in_front = copy.deepcopy(pose_stamped)
     in_front.pose.position.x += -0.05 # backward 5 cm
+    print("reaching in front of can")
     go_to_pose(in_front, move_group, gripper_frame)
 
+    # TODO: attach the can to the arm in the planning scene
+
     # TODO: The robot moves its hand around the can
+    print("removing can as collision object")
     planning_scene_base_link.removeCollisionObject("can")
     at_can = copy.deepcopy(in_front)
     at_can.pose.position.x += 0.06 # forward 6 cm
+    print("moving gripper around can")
     go_to_pose(at_can, move_group, gripper_frame)
 
     # TODO: The robot grabs the can
+    print("closing the gripper")
     gripper.close()
 
     # TODO: The robot lifts the can off of the table
     above_table = copy.deepcopy(at_can)
     above_table.pose.position.z += 0.05 # 5 cm
+    print("lifting the can")
     go_to_pose(above_table, move_group, gripper_frame)
     
 

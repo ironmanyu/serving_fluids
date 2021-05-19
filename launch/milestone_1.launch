@@ -26,15 +26,15 @@
 
   <!-- Oh, you wanted a robot? -->
   <include file="$(find fetch_gazebo)/launch/include/$(arg robot).launch.xml">
-    <arg name="x" value="0.2" />
-    <arg name="y" value="0.0" />
+    <arg name="x" value="-4.0" />
+    <arg name="y" value="1.0" />
     <arg name="z" value="0.0" />
-    <arg name="yaw" value="0.0" />
+    <arg name="yaw" value="1.57" />
   </include>
 
   <!-- Spawn a can on the tabletop --> <!-- Must be after ROS is started -->
   <node name="spawn_coke_can" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
-    args="-sdf -database coke_can -model coke_can -x 1.0 -y 0.0 -z 0.0 -R 0.0 -P 0.0 -Y 0.0" />
+    args="-sdf -database coke_can -model coke_can -x -4.2 -y 2.85 -z 0.75 -R 0.0 -P 0.0 -Y 0.0" />
 
     <!-- Start MoveIt -->
   <include file="$(find fetch_moveit_config)/launch/move_group.launch" >
@@ -44,5 +44,8 @@
 
   <!-- Start RViz -->
   <node type="rviz" name="rviz" pkg="rviz" args="-d $(find Serving_fluids)/config/milestone_1.rviz" />
+
+  <!-- Start the demo -->
+  <node name="milestone_1_demo" pkg="Serving_fluids" type="milestone_1.py" respawn="false" output="screen" />
 
 </launch>
