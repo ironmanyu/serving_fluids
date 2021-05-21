@@ -21,11 +21,11 @@ def get_transformation(source_frame, target_frame,
     # get the tf at first available time
     try:
         transformation = tf_buffer.lookup_transform(target_frame,
-                source_frame, rospy.Time(0), rospy.Duration(0.1))
+                source_frame, rospy.Time(0), rospy.Duration(1.0))
     except (tf2_ros.LookupException, tf2_ros.ConnectivityException,
             tf2_ros.ExtrapolationException):
-        rospy.logerr('Unable to find the transformation from %s to %s'
-                     % source_frame, target_frame)
+        rospy.logerr('Unable to find the transformation from %s to %s' 
+                        % (source_frame, target_frame))
     return transformation
 
 

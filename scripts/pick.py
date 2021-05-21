@@ -1,3 +1,7 @@
+#!/usr/bin/env python
+
+DEBUG = True
+
 # pick.py
 # author: James Muir - jdmuir@uw.edu
 # pick.py makes the robot pick up a can
@@ -23,6 +27,8 @@ from tf_listener import get_transformation, transform_point
 # fetch_api
 import fetch_api
 
+import math
+
 # Fetch + MoveIt!
 # see https://docs.fetchrobotics.com/manipulation
 from moveit_msgs.msg import MoveItErrorCodes
@@ -42,13 +48,18 @@ def segment_image(img):
 
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     # HSV range: [0-179, 0-255, 0-255]
-    lower_red_1 = np.array([0,51,51])
-    upper_red_1 = np.array([9,255,255])
+    min_sat = int(math.floor(50/100.0 * 255))
+    max_sat = 255
+    min_val = int(math.floor(50/100.0 * 255))
+    max_val = 255
+
+    lower_red_1 = np.array([0, min_sat, min_val])
+    upper_red_1 = np.array([9, max_sat, max_val])
     mask_1 = cv2.inRange(hsv, lower_red_1, upper_red_1)
     # cv2.imshow("Mask 1", mask_1)
 
-    lower_red_2 = np.array([167,51,51])
-    upper_red_2 = np.array([179,255,255])
+    lower_red_2 = np.array([167, min_sat, min_val])
+    upper_red_2 = np.array([179, max_sat, max_val])
     mask_2 = cv2.inRange(hsv, lower_red_2, upper_red_2)
     # cv2.imshow("Mask 2", mask_2)
 
@@ -67,11 +78,11 @@ def segment_image(img):
     else:
         cX, cY = 0, 0
 
-    cv2.circle(obj_seg, (cX, cY), 5, (0, 0, 255), -1)
-
-    # cv2.imshow("Result",obj_seg)
-    # cv2.waitKey(0)
-    # cv2.destroyAllWindows()
+    if DEBUG:
+        cv2.circle(obj_seg, (cX, cY), 5, (0, 0, 255), -1)
+        cv2.imshow("Result",obj_seg)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
     return cX, cY, M['m00']
 
 def get_XYZ(msg_pcl,cX,cY):
@@ -124,10 +135,11 @@ def main():
     except CvBridgeError, e:
         print(e)
     else:
-        # cv2.imshow("Image",cv2_color_img)
-        # cv2.waitKey(0) 
-        #closing all open windows 
-        # cv2.destroyAllWindows()
+        if DEBUG:
+            cv2.imshow("Image",cv2_color_img)
+            cv2.waitKey(0) 
+            #closing all open windows 
+            cv2.destroyAllWindows()
         pass
 
     cX,cY,area = segment_image(cv2_color_img)

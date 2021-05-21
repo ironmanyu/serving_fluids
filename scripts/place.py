@@ -48,7 +48,7 @@ def main():
 
     # create new placing pose
     target_frame = "base_link"
-    position = Point(0.75, 0.2, 0.85)
+    position = Point(0.80, 0.2, 0.85)
     # pointing right (along negative y axis), gripper horizontal
     orientation = Quaternion(0.0, 0.0, 0.0, 1.0)
     pose = Pose(position, orientation)
