@@ -213,7 +213,7 @@ def main(simulation=False):
 
     # TODO: attach the can to the arm in the planning scene
 
-    # TODO: The robot moves its hand around the can
+    # The robot moves its hand around the can
     print("removing can as collision object")
     planning_scene_base_link.removeCollisionObject("can")
     at_can = copy.deepcopy(in_front)
@@ -221,11 +221,11 @@ def main(simulation=False):
     print("moving gripper around can")
     go_to_pose(at_can, move_group, gripper_frame)
 
-    # TODO: The robot grabs the can
+    # The robot grabs the can
     print("closing the gripper")
     gripper.close()
 
-    # TODO: The robot lifts the can off of the table
+    # The robot lifts the can off of the table
     above_table = copy.deepcopy(at_can)
     above_table.pose.position.z += 0.05 # 5 cm
     print("lifting the can")
