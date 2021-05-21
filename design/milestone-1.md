@@ -13,9 +13,9 @@
     - [x] drive robot to correct position after arm folds up
 - [ ] make milestone_1.py run on launch
 ### Strech Goals
-- [ ] create a node to publish the position of the can as a transform
 - [ ] attach can to arm in MoveIt so the motion planning doesn't crash the can into anything
 - [ ] add octomap support so the robot can dynamically plan around obstructions
+- [ ] create a node to publish the position of the can as a transform
 
 ## Pick
 The robot will pick up a red coke can.
@@ -32,7 +32,7 @@ The robot will pick up a red coke can.
 The robot will move the can to a good position for moving.
 ### Approach
 - [ ] The robot scans the environment and adds it to the planning scene as an obstacle
-- [ ] The robot moves the can to the stowed position
+- [x] The robot moves the can to the stowed position
 
 ## Place
 The robot will place the coke can on the table
