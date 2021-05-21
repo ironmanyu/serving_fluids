@@ -25,7 +25,7 @@
 
 
   <!-- Oh, you wanted a robot? -->
-  <include file="$(find fetch_gazebo)/launch/include/$(arg robot).launch.xml">
+  <include file="$(find Serving_fluids)/launch/include/fetch_gazebo.launch">
     <arg name="x" value="-4.0" />
     <arg name="y" value="1.0" />
     <arg name="z" value="0.0" />
