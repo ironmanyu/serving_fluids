@@ -1,5 +1,5 @@
 <launch>
-  <!-- Oh, you wanted a robot? -->
+  <!-- Start Gazebo with a Fetch robot -->
   <include file="$(find Serving_fluids)/launch/include/fetch_gazebo.launch">
     <arg name="x" value="-4.0" />
     <arg name="y" value="1.0" />

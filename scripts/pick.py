@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 
-DEBUG = True
-
 # pick.py
 # author: James Muir - jdmuir@uw.edu
 # pick.py makes the robot pick up a can
@@ -42,16 +40,22 @@ import copy
 # Instantiate CvBridge
 bridge = CvBridge()
 
-def segment_image(img):
+def segment_image(img, simulation=False):
     # find red
     # see https://stackoverflow.com/questions/30331944/finding-red-color-in-image-using-python-opencv
 
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     # HSV range: [0-179, 0-255, 0-255]
-    min_sat = int(math.floor(50/100.0 * 255))
-    max_sat = 255
-    min_val = int(math.floor(50/100.0 * 255))
-    max_val = 255
+    if simulation:
+        min_sat = 51
+        max_sat = 255
+        min_val = 51
+        max_val = 255
+    else:
+        min_sat = int(math.floor(50/100.0 * 255))
+        max_sat = 255
+        min_val = int(math.floor(50/100.0 * 255))
+        max_val = 255
 
     lower_red_1 = np.array([0, min_sat, min_val])
     upper_red_1 = np.array([9, max_sat, max_val])
@@ -78,7 +82,7 @@ def segment_image(img):
     else:
         cX, cY = 0, 0
 
-    if DEBUG:
+    if not simulation:
         cv2.circle(obj_seg, (cX, cY), 5, (0, 0, 255), -1)
         cv2.imshow("Result",obj_seg)
         cv2.waitKey(0)
@@ -113,7 +117,7 @@ def go_to_pose(pose, move_group, gripper_frame):
 
     return result
 
-def main():
+def main(simulation=False):
     # make sure gripper is open for grasping
     gripper = fetch_api.Gripper()
     gripper.open()
@@ -135,14 +139,14 @@ def main():
     except CvBridgeError, e:
         print(e)
     else:
-        if DEBUG:
+        if not simulation:
             cv2.imshow("Image",cv2_color_img)
             cv2.waitKey(0) 
             #closing all open windows 
             cv2.destroyAllWindows()
         pass
 
-    cX,cY,area = segment_image(cv2_color_img)
+    cX,cY,area = segment_image(cv2_color_img, simulation=simulation)
 
     print "Centroid, x: ", cX, "y: ", cY
     print "Area: ", area

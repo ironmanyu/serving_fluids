@@ -73,7 +73,7 @@ planning_scene.addBox("ground", 3, 3, ground_thickness, 0, 0, -ground_thickness/
 
 # run the pick routine
 print("picking")
-pick.main()
+pick.main(simulation=True)
 
 # run the stow routine
 print("stowing")
