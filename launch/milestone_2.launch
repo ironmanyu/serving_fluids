@@ -1,10 +1,13 @@
 <launch>
+  <arg name="x" default="7.0" />
+  <arg name="y" default="3.0" />
+  <arg name="yaw" default="-1.57" />
+
   <!-- Start Gazebo with a Fetch robot -->
   <include file="$(find Serving_fluids)/launch/include/fetch_gazebo.launch">
-    <arg name="x" value="-4.0" />
-    <arg name="y" value="1.0" />
-    <arg name="z" value="0.0" />
-    <arg name="yaw" value="1.57" />
+    <arg name="x" value="$(arg x)" />
+    <arg name="y" value="$(arg y)" />
+    <arg name="yaw" value="$(arg yaw)" />
   </include>
 
   <!-- Start the navigation stack-->
@@ -14,6 +17,7 @@
   <node type="rviz" name="rviz" pkg="rviz" args="-d $(find Serving_fluids)/config/milestone_2.rviz" />
 
   <!-- Start the demo -->
-  <!-- <node name="milestone_2_demo" pkg="Serving_fluids" type="milestone_2.py" respawn="false" output="screen" /> -->
+  <!-- <node name="milestone_2_demo" pkg="Serving_fluids" type="milestone_2.py" respawn="false" output="screen" 
+  args="-x $(arg x) -y $(arg y) -Y $(arg yaw)"/> -->
 
 </launch>

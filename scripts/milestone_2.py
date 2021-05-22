@@ -1,9 +1,14 @@
-#!usr/bin/env python
+#!/usr/bin/env python
+
+# import sys, getopt # for command line arguments
+import argparse
 
 import actionlib
 import rospy
 from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal, MoveBaseFeedback, MoveBaseResult
 from geometry_msgs.msg import PoseWithCovarianceStamped
+import math
+from tf.transformations import quaternion_from_euler
 
 class GoalSequence():
     def __init__(self):
@@ -42,9 +47,57 @@ class GoalSequence():
         return result
 
 if __name__ == '__main__':
+    # rospy.sleep(10.0) # wait for the rest of the system to spin up
+
+    # argv = sys.argv[1:]
+    # x = 0.0
+    # y = 0.0
+    # Y = 0.0
+    # try:
+    #     opts, args = getopt.getopt(argv, 'xyY')
+    # except getopt.GetoptError:
+    #     print 'milestone_2.py -x 0.0 -y 0.0 -Y 0.0'
+    #     sys.exit(2)
+    # for opt, arg in opts:
+    #     if opt == "-x":
+    #         print(arg)
+    #         x = float(arg)
+    #     elif opt == "-y":
+    #         print(arg)
+    #         y = float(arg)
+    #     elif opt == "-Y":
+    #         print(arg)
+    #         Y == float(arg)
+    parser = argparse.ArgumentParser(description="set 2D Pose Estimate and navigate to some goal poses")
+    parser.add_argument('-x', default=0.0, type=float)
+    parser.add_argument('-y', default=0.0, type=float)
+    parser.add_argument('-Y', default=0.0, type=float)
+    args = parser.parse_args()
+
     rospy.init_node('GoalSequence')
 
     # TODO: set the 2D Pose Estimate
+    pose_est_pub = rospy.Publisher('initialpose', PoseWithCovarianceStamped, queue_size=10)
+    while pose_est_pub.get_num_connections() == 0:
+        rospy.loginfo("Waiting for subscriber to connect")
+        rospy.sleep(1)
+    pose_estimate = PoseWithCovarianceStamped()
+
+    pose_estimate.header.frame_id = "map"
+    pose_estimate.header.stamp = rospy.Time.now()
+    # position
+    pose_estimate.pose.pose.position.x = args.x
+    pose_estimate.pose.pose.position.y = args.y
+    # orientation
+    q = quaternion_from_euler(0.0, 0.0, args.Y)
+    [x, y, z, w] = q
+    # print(q)
+    pose_estimate.pose.pose.orientation.x = x
+    pose_estimate.pose.pose.orientation.y = y
+    pose_estimate.pose.pose.orientation.z = z
+    pose_estimate.pose.pose.orientation.w = w
+    print(pose_estimate)
+    pose_est_pub.publish(pose_estimate)
 
     # Initialize class
     sequence = GoalSequence()
@@ -52,11 +105,11 @@ if __name__ == '__main__':
     # They should be the same LENGTH
 
     waypoints_pos = list()
-    waypoints_pos.append([2.473, 2.812, 0.000]) # Open Space Table
-    waypoints_pos.append([-3.117, 3.656, 0.000]) # Inner Room Table
+    waypoints_pos.append([-4.1, 1.0, 0.000]) # Booth
+    waypoints_pos.append([-1.88, 1.0, 0.000]) # Kitchen Doorway
     waypoints_orient = list()
-    waypoints_orient.append([0.000, 0.000, 0.000, 1.000])
-    waypoints_orient.append([0.000, 0.000, 0.694, 0.720])
+    waypoints_orient.append([0.000, 0.000, 0.707, 0.707])
+    waypoints_orient.append([0.000, 0.000, 0.707, 0.707])
 
     # Cycle through your waypoints and send the goal to the action server.
     for point in range(0,len(waypoints_pos)):
