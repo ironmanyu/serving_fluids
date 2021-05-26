@@ -6,8 +6,8 @@ static_map: true
 
 inflater:
   robot_radius: 0.30 # default 0.30 # TODO: isn't this redundant?
-  inflation_radius: 0.70 # default 0.70
-  cost_scaling_factor: 10.0 # default 10.0
+  inflation_radius: 0.30 # default 0.70
+  cost_scaling_factor: 5.0 # default 10.0
 
 # plugins for global costmap are below
 plugins:

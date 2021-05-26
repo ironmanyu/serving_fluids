@@ -1,12 +1,12 @@
 <launch>
-  <arg name="x" default="7.0" />
-  <arg name="y" default="3.0" />
+  <arg name="x" default="0.0" />
+  <arg name="y" default="0.0" />
   <arg name="yaw" default="-1.57" />
 
   <!-- Start Gazebo with a Fetch robot -->
   <include file="$(find Serving_fluids)/launch/include/fetch_gazebo.launch">
-    <arg name="x" value="$(arg x)" />
-    <arg name="y" value="$(arg y)" />
+    <arg name="x" value="$(arg x)"  />
+    <arg name="y" value="$(arg y)"  />
     <arg name="yaw" value="$(arg yaw)" />
   </include>
 

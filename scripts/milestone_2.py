@@ -68,6 +68,7 @@ if __name__ == '__main__':
     #     elif opt == "-Y":
     #         print(arg)
     #         Y == float(arg)
+    rospy.loginfo("Test!!!!!!!!!!!!!!!!!")
     parser = argparse.ArgumentParser(description="set 2D Pose Estimate and navigate to some goal poses")
     parser.add_argument('-x', default=0.0, type=float)
     parser.add_argument('-y', default=0.0, type=float)
@@ -105,16 +106,33 @@ if __name__ == '__main__':
     # They should be the same LENGTH
 
     waypoints_pos = list()
-    waypoints_pos.append([-4.1, 1.0, 0.000]) # Booth
-    waypoints_pos.append([-1.88, 1.0, 0.000]) # Kitchen Doorway
+    #waypoints_pos.append([-2.0, 1.0, 0.000]) # Booth
+    #waypoints_pos.append([-2.0, 3.0, 0.000]) # Kitchen Doorway
+    #waypoints_pos.append([-0.4, 3.1, 0.000]) # Near the desk
+    #waypoints_pos.append([-1.7, 3.0, 0.000]) # Kitchen Doorway
+    #waypoints_pos.append([-1.7, 1.0, 0.000]) # Booth
+    waypoints_pos.append([-4.4, 2.0, 0.000])
+    waypoints_pos.append([-7.0, -1.0, 0.000]) # Canteen Doorway
+    waypoints_pos.append([-8.0, 0.1, 0.000]) # Near the table
+    waypoints_pos.append([-7.0, -1.0, 0.000])
+    waypoints_pos.append([-4.4, 2.0, 0.000])
     waypoints_orient = list()
+    #waypoints_orient.append([0.000, 0.000, 0.707, 0.707])
+    #waypoints_orient.append([0.000, 0.000, 0.707, 0.707])
+    #waypoints_orient.append([0.000, 0.000, -0.707, -0.707])
+    #waypoints_orient.append([0.000, 0.000, -0.707, -0.707])
+    #waypoints_orient.append([0.000, 0.000, -0.707, -0.707])
     waypoints_orient.append([0.000, 0.000, 0.707, 0.707])
+    waypoints_orient.append([0.000, 0.000, 0.707, 0.707])
+    waypoints_orient.append([0.000, 0.000, 0.707, 0.707])
+    waypoints_orient.append([0.000, 0.000, -0.707, 0.707])
     waypoints_orient.append([0.000, 0.000, 0.707, 0.707])
 
     # Cycle through your waypoints and send the goal to the action server.
     for point in range(0,len(waypoints_pos)):
         sequence.set_goal(position = waypoints_pos[point], orientation =
         waypoints_orient[point])
+        print('Moving to Point No.',point,waypoints_pos[point])
         result = sequence.execute()
         # <CHECK_FOR_SUCCESS>
         rospy.loginfo("Goal execution done!")
