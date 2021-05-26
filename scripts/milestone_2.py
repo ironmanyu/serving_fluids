@@ -112,9 +112,11 @@ if __name__ == '__main__':
     #waypoints_pos.append([-1.7, 3.0, 0.000]) # Kitchen Doorway
     #waypoints_pos.append([-1.7, 1.0, 0.000]) # Booth
     waypoints_pos.append([-4.4, 2.0, 0.000])
+    waypoints_pos.append([-4.4, -1.0, 0.000])
     waypoints_pos.append([-7.0, -1.0, 0.000]) # Canteen Doorway
     waypoints_pos.append([-8.0, 0.1, 0.000]) # Near the table
     waypoints_pos.append([-7.0, -1.0, 0.000])
+    waypoints_pos.append([-4.4, -1.0, 0.000])
     waypoints_pos.append([-4.4, 2.0, 0.000])
     waypoints_orient = list()
     #waypoints_orient.append([0.000, 0.000, 0.707, 0.707])
@@ -123,9 +125,11 @@ if __name__ == '__main__':
     #waypoints_orient.append([0.000, 0.000, -0.707, -0.707])
     #waypoints_orient.append([0.000, 0.000, -0.707, -0.707])
     waypoints_orient.append([0.000, 0.000, 0.707, 0.707])
+    waypoints_orient.append([0.000, 0.000, -0.707, 0.707])
     waypoints_orient.append([0.000, 0.000, 0.707, 0.707])
     waypoints_orient.append([0.000, 0.000, 0.707, 0.707])
     waypoints_orient.append([0.000, 0.000, -0.707, 0.707])
+    waypoints_orient.append([0.000, 0.000, 0.707, 0.707])
     waypoints_orient.append([0.000, 0.000, 0.707, 0.707])
 
     # Cycle through your waypoints and send the goal to the action server.
