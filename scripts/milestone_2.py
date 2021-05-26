@@ -81,7 +81,7 @@ if __name__ == '__main__':
 
     rospy.init_node('GoalSequence')
 
-    # TODO: set the 2D Pose Estimate
+    # set the 2D Pose Estimate
     pose_est_pub = rospy.Publisher('initialpose', PoseWithCovarianceStamped, queue_size=10)
     while pose_est_pub.get_num_connections() == 0:
         rospy.loginfo("Waiting for subscriber to connect")
