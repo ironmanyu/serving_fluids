@@ -1,4 +1,7 @@
 <launch>
+  <arg name="x" default="1.4" />
+  <arg name="y" default="5.0" />
+  <arg name="yaw" default="-1.57" />
 
   <!-- Start the navigation stack-->
   <include file="$(find Serving_fluids)/launch/include/navigation_stack.launch" />
@@ -7,6 +10,7 @@
   <node type="rviz" name="rviz" pkg="rviz" args="-d $(find Serving_fluids)/config/milestone_2.rviz" />
 
   <!-- Start the demo -->
-  <!-- <node name="milestone_2_demo" pkg="Serving_fluids" type="navigation_irl.py" respawn="false" output="screen" /> -->
+  <!-- <node name="milestone_2_demo" pkg="Serving_fluids" type="milestone_2.py" respawn="false" output="screen" 
+  args="-x $(arg x) -y $(arg y) -Y $(arg yaw)"/> -->
 
 </launch>
