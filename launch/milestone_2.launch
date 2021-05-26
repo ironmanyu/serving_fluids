@@ -1,5 +1,5 @@
 <launch>
-  <arg name="x" default="7.0" />
+  <arg name="x" default="1.4" />
   <arg name="y" default="3.0" />
   <arg name="yaw" default="-1.57" />
 

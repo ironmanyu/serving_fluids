@@ -7,8 +7,34 @@ import actionlib
 import rospy
 from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal, MoveBaseFeedback, MoveBaseResult
 from geometry_msgs.msg import PoseWithCovarianceStamped
+from sensor_msgs.msg import LaserScan
 import math
+import tf
 from tf.transformations import quaternion_from_euler
+import numpy as np
+import fetch_api
+
+def drive_straight_through_narrow_space(distance):
+    base = fetch_api.Base()
+    tf_listener = tf.TransformListener()
+    rate = rospy.Rate(10) # 10 Hz
+    start_trans = None
+    # drive forward until we have travelled distance
+    while not rospy.is_shutdown():
+        # stop if too close to a wall
+        laser_scan = rospy.wait_for_message("base_scan", LaserScan)
+        if (np.min(laser_scan.ranges) < 0.07): # if less than 7 cm away from object
+            continue # don't move forward
+        # figure out how far the robot has driven already
+        (trans, rot) = tf_listener.lookupTransform("/odom", "/base_link", rospy.Time(0))
+        trans = np.array(trans)
+        if start_trans is None: # initialize the beginning transform
+            start_trans = trans
+        if np.linalg.norm(trans - start_trans) >= distance:
+            # we reached the goal distance
+            break
+        # otherwise keep driving forward
+        base.move(0.1, 0.0)
 
 class GoalSequence():
     def __init__(self):
@@ -47,27 +73,6 @@ class GoalSequence():
         return result
 
 if __name__ == '__main__':
-    # rospy.sleep(10.0) # wait for the rest of the system to spin up
-
-    # argv = sys.argv[1:]
-    # x = 0.0
-    # y = 0.0
-    # Y = 0.0
-    # try:
-    #     opts, args = getopt.getopt(argv, 'xyY')
-    # except getopt.GetoptError:
-    #     print 'milestone_2.py -x 0.0 -y 0.0 -Y 0.0'
-    #     sys.exit(2)
-    # for opt, arg in opts:
-    #     if opt == "-x":
-    #         print(arg)
-    #         x = float(arg)
-    #     elif opt == "-y":
-    #         print(arg)
-    #         y = float(arg)
-    #     elif opt == "-Y":
-    #         print(arg)
-    #         Y == float(arg)
     parser = argparse.ArgumentParser(description="set 2D Pose Estimate and navigate to some goal poses")
     parser.add_argument('-x', default=0.0, type=float)
     parser.add_argument('-y', default=0.0, type=float)
@@ -98,6 +103,9 @@ if __name__ == '__main__':
     pose_estimate.pose.pose.orientation.w = w
     print(pose_estimate)
     pose_est_pub.publish(pose_estimate)
+
+    # drive forward 3 meters down the hallway
+    drive_straight_through_narrow_space(3)
 
     # Initialize class
     sequence = GoalSequence()
