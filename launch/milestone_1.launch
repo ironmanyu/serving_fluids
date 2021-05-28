@@ -12,10 +12,10 @@
   <node name="spawn_coke_can" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
     args="-sdf -database coke_can -model coke_can -x -4.2 -y 2.85 -z 0.75 -R 0.0 -P 0.0 -Y 0.0" />
 
-    <!-- Start MoveIt -->
+  <!-- Start MoveIt -->
   <include file="$(find fetch_moveit_config)/launch/move_group.launch" >
-    <arg name="info" value="true"/><!-- publish grasp markers -->
-    <arg name="allow_active_sensing" value="false"/><!-- Octomap --><!-- Keep Octomap off for now -->
+    <arg name="info" value="true"/> <!-- publish grasp markers -->
+    <arg name="allow_active_sensing" value="false"/> <!-- Octomap --> <!-- Keep Octomap off for now -->
   </include>
 
   <!-- Start RViz -->
