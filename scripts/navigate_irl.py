@@ -64,36 +64,36 @@ if __name__ == '__main__':
     print('creating the NavGoalClient')
     nav_client = NavGoalClient()
 
-    # TODO: navigate to kitchen counter
+    # navigate to kitchen counter
     def go_to_kitchen():
         # drive to kitchen doorway
         print('driving to kitchen doorway')
-        result = nav_client.send_goal(-1.8, 0.5, math.pi/2)
+        result = nav_client.send_goal(-2.0, 0.5, math.pi/2)
         if args.doors:
             # drive through kitchen doorway
             print('driving through kitchen doorway')
             result = nav_client.send_goal(-1.8, 2.5, 0.0)
     go_to_kitchen()
 
-    # TODO: navigate to dining table
+    # navigate to dining table
     # drive to bench area
     print('driving to bench area')
-    result = nav_client.send_goal(-4.1, 0.5, math.pi/2)
-    if args.doors:
-        # drive up to dining table
-        print('driving to dining table')
-        result = nav_client.send_goal(-4.1, 2.0, math.pi/2)
+    result = nav_client.send_goal(-4.5, 0.5, math.pi/2)
+    # if args.doors:
+    # drive up to dining table
+    print('driving up to dining table')
+    result = nav_client.send_goal(-4.5, 2.0, math.pi/2)
 
-    # TODO: navigate to kitchen counter
+    # navigate to kitchen counter
     go_to_kitchen()
 
-    # TODO: navigate to starting point in hallway
+    # navigate to starting point in hallway
     # drive to start of hallway
     print('driving to start of hallway')
     result = nav_client.send_goal(1.4, 0.5, math.pi/2)
-    if args.doors:
-        # drive down hallway
-        print('driving down hallway')
-        result = nav_client.send_goal(1.4, 5.0, -math.pi/2)
+    # if args.doors:
+    # drive down hallway
+    print('driving down hallway')
+    result = nav_client.send_goal(1.4, 5.0, -math.pi/2)
 
     rospy.signal_shutdown("Goal sequence completed!")
