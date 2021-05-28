@@ -30,6 +30,7 @@ def set_pose_estimate(x, y, yaw):
 def drive_straight_through_narrow_space(distance, speed=0.1):
     '''drive straight forward by distance (meters), with a speed of speed (m/s)
     The robot will stop if it sees an obstacle less than 1 second away at current speed.'''
+    # TODO: make the robot aware of objects beside it
     base = fetch_api.Base()
     tf_listener = tf.TransformListener()
     rate = rospy.Rate(10) # 10 Hz
@@ -109,13 +110,13 @@ if __name__ == '__main__':
 
     # TODO: navigate to kitchen counter
     # drive forward down the hallway
-    drive_straight_through_narrow_space(4.0, speed=0.5) # 4 meters
+    # drive_straight_through_narrow_space(4.0, speed=0.5) # 4 meters
     # drive to kitchen doorway
     result = nav_client.send_goal(-2.1, 1.0, math.pi/2)
     # drive through kitchen doorway
-    drive_straight_through_narrow_space(1.5)
+    # drive_straight_through_narrow_space(1.5)
     # turn to face table
-    base.turn(-90) # 90 deg clockwise
+    # base.turn(-90) # 90 deg clockwise
 
     # TODO: navigate to dining table
 
