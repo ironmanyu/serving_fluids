@@ -30,7 +30,6 @@ def set_pose_estimate(x, y, yaw):
 def drive_straight_through_narrow_space(distance, speed=0.1):
     '''drive straight forward by distance (meters), with a speed of speed (m/s)
     The robot will stop if it sees an obstacle less than 1 second away at current speed.'''
-    # TODO: make the robot aware of objects beside it
     base = fetch_api.Base()
     tf_listener = tf.TransformListener()
     rate = rospy.Rate(10) # 10 Hz

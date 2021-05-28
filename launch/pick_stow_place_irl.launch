@@ -6,7 +6,4 @@
   <!-- Start RViz -->
   <node type="rviz" name="rviz" pkg="rviz" args="-d $(find Serving_fluids)/config/milestone_1.rviz" />
 
-  <!-- Start the demo -->
-  <!-- <node name="pick_stow_place_irl" pkg="Serving_fluids" type="pick_stow_place_irl.py" respawn="false" output="screen" /> -->
-
 </launch>

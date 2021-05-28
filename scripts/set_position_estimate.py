@@ -1,19 +1,14 @@
 #!/usr/bin/env python
 
-# import sys, getopt # for command line arguments
 import argparse
 
-import actionlib
 import rospy
-from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal, MoveBaseFeedback, MoveBaseResult
+
 from geometry_msgs.msg import PoseWithCovarianceStamped
 from geometry_msgs.msg import Pose
-from sensor_msgs.msg import LaserScan
-import math
-import tf
+
 from tf.transformations import quaternion_from_euler
-import numpy as np
-import fetch_api
+
 
 def set_pose_estimate(x, y, yaw):
     pose_est_pub = rospy.Publisher('initialpose', PoseWithCovarianceStamped, queue_size=10)
