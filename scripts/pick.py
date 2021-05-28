@@ -135,7 +135,7 @@ def main(simulation=False):
     print("Received a color image!")
     try:
         # Convert your ROS Image message to OpenCV2
-        cv2_color_img = bridge.imgmsg_to_cv2(msg, "bgr8")
+        cv2_color_img = bridge.imgmsg_to_cv2(msg, desired_encoding="bgr8")
     except CvBridgeError, e:
         print(e)
     else:

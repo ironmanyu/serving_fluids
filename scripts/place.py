@@ -22,33 +22,14 @@ from geometry_msgs.msg import PoseStamped, Pose, Point, Quaternion
 
 import copy
 
-def go_to_pose(pose, move_group, gripper_frame):
-    pose.header.stamp = rospy.Time.now()
+from pick import go_to_pose
 
-    move_group.moveToPose(pose, gripper_frame)
-
-    result = move_group.get_move_action().get_result()
-
-    if result:
-        # Checking the MoveItErrorCode
-        if result.error_code.val == MoveItErrorCodes.SUCCESS:
-            rospy.loginfo("Hello there!")
-        else:
-            # If you get to this point please search for:
-            # moveit_msgs/MoveItErrorCodes.msg
-            rospy.logerr("Arm goal in state: %s",
-                            move_group.get_move_action().get_state())
-    else:
-        rospy.logerr("MoveIt! failure no result returned.")
-
-    return result
-
-def main():
+def main(x=0.80, y=0.20, z=0.85):
     # TODO: The robot scans the environment and adds it to the planning scene as an obstacle
 
     # create new placing pose
     target_frame = "base_link"
-    position = Point(0.80, 0.2, 0.85)
+    position = Point(x, y, z)
     # pointing right (along negative y axis), gripper horizontal
     orientation = Quaternion(0.0, 0.0, 0.0, 1.0)
     pose = Pose(position, orientation)
