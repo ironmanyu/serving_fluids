@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-# import sys, getopt # for command line arguments
 import argparse
 
 import actionlib
@@ -14,18 +13,6 @@ import tf
 from tf.transformations import quaternion_from_euler
 import numpy as np
 import fetch_api
-
-def set_pose_estimate(x, y, yaw):
-    pose_est_pub = rospy.Publisher('initialpose', PoseWithCovarianceStamped, queue_size=10)
-    while pose_est_pub.get_num_connections() == 0:
-        rospy.loginfo("Waiting for subscriber to connect")
-        rospy.sleep(1)
-    pose_estimate = PoseWithCovarianceStamped()
-    pose_estimate.header.frame_id = "map"
-    pose_estimate.header.stamp = rospy.Time.now()
-    pose_estimate.pose.pose = pose_from_xyY(x, y, yaw)
-    # print(pose_estimate)
-    pose_est_pub.publish(pose_estimate)
 
 def pose_from_xyY(x, y, Y):
     # returns a pose given x and y position coordinates (m) and a Y yaw value (rad)
@@ -63,34 +50,50 @@ class NavGoalClient():
 
 if __name__ == '__main__':
     # parse command line arguments
-    parser = argparse.ArgumentParser(description="set 2D Pose Estimate and navigate to some goal poses")
-    parser.add_argument('-x', default=0.0, type=float)
-    parser.add_argument('-y', default=0.0, type=float)
-    parser.add_argument('-Y', default=0.0, type=float)
-    args = parser.parse_args()
+    print('parsing command line arguments')
+    parser = argparse.ArgumentParser(description="navigate to a series of poses")
+    parser.add_argument('-d', '--doors', action='store_true') # default False
+    args, unknown = parser.parse_known_args()
+    # print(args.doors)
 
     # start the node
-    rospy.init_node('GoalSequence')
-
-    # set the 2D Pose Estimate
-    set_pose_estimate(args.x, args.y, args.Y)
+    print('starting the node')
+    rospy.init_node('navigate_irl')
 
     # start the NavGoalClient
+    print('creating the NavGoalClient')
     nav_client = NavGoalClient()
-    
-    # start the base
-    base = fetch_api.Base()
 
     # TODO: navigate to kitchen counter
-    # drive to kitchen doorway
-    result = nav_client.send_goal(-2.1, 1.0, math.pi/2)
-    # drive through kitchen doorway
-    result = nav_client.send_goal()
+    def go_to_kitchen():
+        # drive to kitchen doorway
+        print('driving to kitchen doorway')
+        result = nav_client.send_goal(-1.8, 0.5, math.pi/2)
+        if args.doors:
+            # drive through kitchen doorway
+            print('driving through kitchen doorway')
+            result = nav_client.send_goal(-1.8, 2.5, 0.0)
+    go_to_kitchen()
 
     # TODO: navigate to dining table
+    # drive to bench area
+    print('driving to bench area')
+    result = nav_client.send_goal(-4.1, 0.5, math.pi/2)
+    if args.doors:
+        # drive up to dining table
+        print('driving to dining table')
+        result = nav_client.send_goal(-4.1, 2.0, math.pi/2)
 
-    # TODO: navigate to kitchen conter
+    # TODO: navigate to kitchen counter
+    go_to_kitchen()
 
     # TODO: navigate to starting point in hallway
+    # drive to start of hallway
+    print('driving to start of hallway')
+    result = nav_client.send_goal(1.4, 0.5, math.pi/2)
+    if args.doors:
+        # drive down hallway
+        print('driving down hallway')
+        result = nav_client.send_goal(1.4, 5.0, -math.pi/2)
 
     rospy.signal_shutdown("Goal sequence completed!")

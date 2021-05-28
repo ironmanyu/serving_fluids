@@ -109,13 +109,13 @@ if __name__ == '__main__':
 
     # TODO: navigate to kitchen counter
     # drive forward down the hallway
-    # drive_straight_through_narrow_space(4.0, speed=0.5) # 4 meters
+    drive_straight_through_narrow_space(4.0, speed=0.5) # 4 meters
     # drive to kitchen doorway
     result = nav_client.send_goal(-2.1, 1.0, math.pi/2)
     # drive through kitchen doorway
-    # drive_straight_through_narrow_space(1.5)
+    drive_straight_through_narrow_space(1.5)
     # turn to face table
-    # base.turn(-90) # 90 deg clockwise
+    base.turn(-90) # 90 deg clockwise
 
     # TODO: navigate to dining table
 

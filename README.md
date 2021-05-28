@@ -21,7 +21,18 @@ Before starting any of the demos, do the following:
 ### Milestone 1
 1. Run `roslaunch Serving_fluids milestone_1.launch`
 ### Milestone 2
-2. Run `roslaunch Serving_fluids milestone_2.launch`
+Note: Milestone 2 in simulation is a WIP
+TODO: update this with final instructions for milestone 2
+1. Run `roslaunch Serving_fluids milestone_2.launch`
+### Milestone 3
+Note: Milestone 3 in simulation is a WIP
+TODO: update this with final instructions for milestone 3
+1. Run `roslaunch Serving_fluids milestone_3.launch`
+### Final Demo IRL
+1. Set up the real robot
+2. Run `roslaunch Serving_fluids demo_irl.launch`
+3. Set the robot's position using "2D Pose Estimate" in RViz
+4. Run `rosrun Serving_fluids demo_irl.py`
 
 ## Working in this repo (pretty meta)
 
