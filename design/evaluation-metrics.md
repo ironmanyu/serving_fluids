@@ -14,6 +14,7 @@ We can actually test some of the technical metrics on our project.
 - Accuracy and Precision:
     - How close did the robot place the can to the target position?
 - Success Rate:
+    - How many times was the robot able to identify the can?
     - How many times was the robot able to pick up the can?
     - How many times was the robot able to tuck the can?
     - How many times was the robot able to place the can?
