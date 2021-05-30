@@ -1,9 +1,9 @@
 <launch>
 
   <!-- Start the navigation stack-->
-  <include file="$(find Serving_fluids)/launch/include/navigation_stack.launch" />
+  <include file="$(find serving_fluids)/launch/include/navigation_stack.launch" />
 
   <!-- Start RViz -->
-  <node type="rviz" name="rviz" pkg="rviz" args="-d $(find Serving_fluids)/config/milestone_2.rviz" />
+  <node type="rviz" name="rviz" pkg="rviz" args="-d $(find serving_fluids)/config/milestone_2.rviz" />
 
 </launch>

@@ -1,5 +1,5 @@
 <package>
-  <name>Serving_fluids</name>
+  <name>serving_fluids</name>
   <version>0.9.2</version>
   <description>
     Demo of Fetch Mobile Manipulator as a robotic waiter for beverages.
@@ -11,7 +11,7 @@
   <maintainer email="james@jamesdarrenmuir.com">James Muir</maintainer>
 
   <license>BSD</license>
-  <url>https://github.com/ironmanyu/Serving_fluids</url>
+  <url>https://github.com/ironmanyu/serving_fluids</url>
   
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>rospy</build_depend>

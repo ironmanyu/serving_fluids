@@ -5,7 +5,7 @@
     <arg name="yaw" default="0.0" />
 
     <!-- Set Gazebo Model Path-->
-    <env name="GAZEBO_MODEL_PATH" value="$(find Serving_fluids)/models:$(optenv GAZEBO_MODEL_PATH)" />
+    <env name="GAZEBO_MODEL_PATH" value="$(find serving_fluids)/models:$(optenv GAZEBO_MODEL_PATH)" />
 
     <arg name="robot" default="fetch"/>
     <arg name="debug" default="false"/>
@@ -15,7 +15,7 @@
     <!-- Note: the world_name is with respect to GAZEBO_RESOURCE_PATH environmental variable (/opt/share/gazebo-9/) -->
     <!-- Note2: to include fetchit_challenge worlds change default to: "$(find fetchit_challenge)/worlds/fetchit_challenge_simple.world" --> 
     <!-- Note3: to change world from the terminal substitute $(find ...) for $HOME/catkin_ws/src/... -->
-    <arg name="world" default="$(find Serving_fluids)/models/test_floorplan.world"/>
+    <arg name="world" default="$(find serving_fluids)/models/test_floorplan.world"/>
 
     <!-- Start Gazebo with a blank world --> <!-- not really blank, we set the world file through an argument -->
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
