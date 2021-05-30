@@ -6,7 +6,7 @@ This project is a demo of the Fetch Mobile Manipulator acting as a waiter by ser
 2. Install ROS Melodic: http://wiki.ros.org/melodic/Installation/Ubuntu
 3. Install Fetch Gazebo simulation package: https://docs.fetchrobotics.com/gazebo.html
 4. Set up a Catkin workspace: https://docs.fetchrobotics.com/gazebo.html
-5. Clone this repository in to the /src directory in the Catkin workspace: `git clone git@github.com:ironmanyu/Serving_fluids.git`
+5. Clone this repository in to the /src directory in the Catkin workspace: `git clone git@github.com:ironmanyu/serving_fluids.git`
 6. Install the fetch_api:
     1. Clone the fetch_api repository into the /src directory in the Catkin workspace: `git clone git@github.com:jamesdarrenmuir/fetch_api.git`
     2. Install pip: `sudo apt install python-pip`
@@ -19,9 +19,20 @@ Before starting any of the demos, do the following:
 1. Navigate to your Catkin workspace directory using `cd`
 2. Run `source devel/setup.bash`
 ### Milestone 1
-1. Run `roslaunch Serving_fluids milestone_1.launch`
+1. Run `roslaunch serving_fluids milestone_1.launch`
 ### Milestone 2
-2. Run `roslaunch Serving_fluids milestone_2.launch`
+Note: Milestone 2 in simulation is a WIP
+TODO: update this with final instructions for milestone 2
+1. Run `roslaunch serving_fluids milestone_2.launch`
+### Milestone 3
+Note: Milestone 3 in simulation is a WIP
+TODO: update this with final instructions for milestone 3
+1. Run `roslaunch serving_fluids milestone_3.launch`
+### Final Demo IRL
+1. Set up the real robot
+2. Run `roslaunch serving_fluids demo_irl.launch`
+3. Set the robot's position using "2D Pose Estimate" in RViz
+4. Run `rosrun serving_fluids demo_irl.py`
 
 ## Working in this repo (pretty meta)
 

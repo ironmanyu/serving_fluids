@@ -1,7 +1,7 @@
 <launch>
 
   <!-- Start Gazebo with a Fetch robot -->
-  <include file="$(find Serving_fluids)/launch/include/fetch_gazebo.launch">
+  <include file="$(find serving_fluids)/launch/include/fetch_gazebo.launch">
     <arg name="x" value="-4.0" />
     <arg name="y" value="1.0" />
     <arg name="z" value="0.0" />
@@ -12,16 +12,16 @@
   <node name="spawn_coke_can" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
     args="-sdf -database coke_can -model coke_can -x -4.2 -y 2.85 -z 0.75 -R 0.0 -P 0.0 -Y 0.0" />
 
-    <!-- Start MoveIt -->
+  <!-- Start MoveIt -->
   <include file="$(find fetch_moveit_config)/launch/move_group.launch" >
-    <arg name="info" value="true"/><!-- publish grasp markers -->
-    <arg name="allow_active_sensing" value="false"/><!-- Octomap --><!-- Keep Octomap off for now -->
+    <arg name="info" value="true"/> <!-- publish grasp markers -->
+    <arg name="allow_active_sensing" value="false"/> <!-- Octomap --> <!-- Keep Octomap off for now -->
   </include>
 
   <!-- Start RViz -->
-  <node type="rviz" name="rviz" pkg="rviz" args="-d $(find Serving_fluids)/config/milestone_1.rviz" />
+  <node type="rviz" name="rviz" pkg="rviz" args="-d $(find serving_fluids)/config/milestone_1.rviz" />
 
   <!-- Start the demo -->
-  <node name="milestone_1_demo" pkg="Serving_fluids" type="milestone_1.py" respawn="false" output="screen" />
+  <node name="milestone_1_demo" pkg="serving_fluids" type="milestone_1.py" respawn="false" output="screen" />
 
 </launch>

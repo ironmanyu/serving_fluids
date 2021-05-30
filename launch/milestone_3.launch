@@ -1,0 +1,41 @@
+<launch>
+    <!-- <arg name="x" default="1.4" />
+    <arg name="y" default="5.0" />
+    <arg name="yaw" default="-1.57" /> -->
+
+    <arg name="x" default="0.0" />
+    <arg name="y" default="0.0" />
+    <arg name="yaw" default="-3.14" />
+
+    <!-- Start Gazebo with a Fetch robot -->
+    <include file="$(find serving_fluids)/launch/include/fetch_gazebo.launch">
+        <arg name="x" value="$(arg x)" />
+        <arg name="y" value="$(arg y)" />
+        <arg name="yaw" value="$(arg yaw)" />
+    </include>
+
+    <!-- Spawn a can on the dining table --> <!-- Must be after ROS is started -->
+    <node name="spawn_coke_can_dining" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+        args="-sdf -database coke_can -model coke_can_dining -x -4.2 -y 2.85 -z 0.75 -R 0.0 -P 0.0 -Y 0.0" />
+
+    <!-- Spawn a can on the kitchen counter --> <!-- Must be after ROS is started -->
+    <node name="spawn_coke_can_kitchen" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+        args="-sdf -database coke_can -model coke_can_kitchen -x -0.75 -y 2.5 -z 0.75 -R 0.0 -P 0.0 -Y 0.0" />
+
+    <!-- Start the navigation stack-->
+    <include file="$(find serving_fluids)/launch/include/navigation_stack.launch" />
+    
+    <!-- Tell robot where it is -->
+    <node name="set_position_estimate" pkg="serving_fluids" type="set_position_estimate.py" respawn="false" output="screen" 
+        args="-x $(arg x) -y $(arg y) -Y $(arg yaw)"/>
+
+    <!-- Start MoveIt -->
+    <include file="$(find fetch_moveit_config)/launch/move_group.launch" >
+        <arg name="info" value="true"/> <!-- publish grasp markers -->
+        <arg name="allow_active_sensing" value="false"/> <!-- Octomap --> <!-- Keep Octomap off for now -->
+    </include>
+    
+    <!-- Start RViz -->
+    <node type="rviz" name="rviz" pkg="rviz" args="-d $(find serving_fluids)/config/milestone_3.rviz" />
+
+</launch>

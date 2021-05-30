@@ -3,13 +3,15 @@
 ## TODO
 ### General
 - [ ] add items to milestone_2.launch
-    - [ ] navigation stack
-    - [ ] milestone_2.rviz
+    - [x] navigation stack
+    - [x] milestone_2.rviz
     - [ ] milestone_2.py
 - [ ] finish milestone_2.py
     - [ ] add proper waypoints
-    - [ ] automatically send 2D pose estimate at the start
-- [ ] tune costmap parameters so robot can get through doors
+    - [x] automatically send 2D pose estimate at the start
+- [ ] get through doors and hallways
+    - [ ] tune costmap parameters so robot can get through doors
+    - [ ] add seperate behavior to get through doors and hallways
 - [x] add finite state machine diagram
 - [x] add sequence diagram
 - [x] add evaluation metrics
