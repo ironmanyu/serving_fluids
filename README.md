@@ -1,4 +1,4 @@
-# This repo is for the project 'Serving fluids'
+# This repo is for the project 'serving fluids'
 This project is a demo of the Fetch Mobile Manipulator acting as a waiter by serving beverages.
 
 ## Installation Instructions
