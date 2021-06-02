@@ -14,6 +14,10 @@ import pick, stow, place
 from navigate_irl import NavGoalClient
 from milestone_1 import clear_planning_scene
 
+import time
+
+from std_srvs.srv import Empty
+
 # the node code
 if __name__ == '__main__':
     # parse command line arguments
@@ -33,84 +37,84 @@ if __name__ == '__main__':
     head = fetch_api.Head()
     torso = fetch_api.Torso()
 
-    # TODO: navigate to the stool
+    # TODO: place can in hand
+    gripper.open()
+    raw_input("Place the can in the robot's gripper. KEEP FINGERS AWAY FROM GRIPPER! Press the ENTER key to close the gripper.")
+    gripper.close()
+
+    # wait for user to start
+    raw_input("Press the ENTER key to start the robot.")
+
+    # clear the costmaps
+    # print("clearing the costmaps")
+    # rospy.wait_for_service('move_base/clear_costmaps')
+    # clear_costmaps = rospy.ServiceProxy('move_base/clear_costmaps', Empty)
+    # clear_costmaps()
+
+    # TODO: navigate to the table
     print('navigating to the dining table')
     nav_client = NavGoalClient()
-    # table_x = -2.0
-    # table_y = 1.1
+    # table_x = -4.5
+    # table_y = 0.5
     # table_theta = math.pi/2
-    table_x = -4.339
-    table_y = -0.470
-    table_theta = -math.pi/2
+    table_x = -2.949
+    table_y = 0.645
+    table_theta = 0.374
 
     nav_client.send_goal(table_x, table_y, table_theta)
+    time.sleep(2)
 
-    # TODO: pick up and tuck the can
-    def pick_and_place_configuration():
-        # raise the robot up
-        # print("raising torso")
-        # torso.set_height(torso.MAX_HEIGHT)
-        # point head at table
-        print("tilting head")
-        # head.pan_tilt(0, math.pi/5)
-        head.pan_tilt(0.0, 0.6)
-    pick_and_place_configuration()
-
+    # drive towards the table
+    drive_forward_distance = 1.1
+    base.go_forward(drive_forward_distance)
+    # TODO: place the can
     # set up system to cancel MoveIt actions if the program is terminated early
+    print("setting up move group interface")
     move_group = MoveGroupInterface("arm", 'base_link')
+    move_group.setPlanningTime(30)
     # set up the shutdown callback, so incomplete goals get cancelled on shutdown
     rospy.on_shutdown(move_group.get_move_action().cancel_all_goals)
 
     # set up the collision objects for MoveIt
+    print("setting up collision objects")
 
     # planning scene relative to robot
     planning_scene = PlanningSceneInterface('base_link')
+
     # get rid of old objects
     clear_planning_scene(planning_scene)
+   # add table
+    table_height = 0.85
+    # planning_scene.addBox("table", 0.8, 2.0, table_height, 2.4 - table_y - drive_forward_distance, 0.115788, table_height/2.0)
 
-    def set_up_planning_scene():
-        # add table
-        # table_height = 0.75
-        table_height = 0.695 # 69.5 cm
-        planning_scene.addBox("table", 0.8, 2.0, table_height, 1.2, 0.115788, table_height/2.0)
+    # add ground
+    # centered on robot base_link
+    # all collision objects are stored relative to robot so they follow the robot around by default
+    ground_thickness = .1
+    planning_scene.addBox("ground", 3, 3, ground_thickness, 0, 0, -ground_thickness/2)
 
-        # add ground
-        # centered on robot base_link
-        # all collision objects are stored relative to robot so they follow the robot around by default
-        ground_thickness = .1
-        planning_scene.addBox("ground", 3, 3, ground_thickness, 0, 0, -ground_thickness/2)
-    set_up_planning_scene()
-
-    # run the pick routine
-    print("picking")
-    pick.main(simulation=args.simulation)
-    # TODO: tuck the can
-    # run the stow routine
-    print("stowing")
-    arm.tuck()
-
-    clear_planning_scene(planning_scene)
-
-    # TODO: drive away and come back
-    # lower the robot down
-    # print("lowering torso")
-    # torso.set_height(torso.MIN_HEIGHT)
-    # print('leaving the table')
-    # nav_client.send_goal(0.0, 0.0, 0.0)
-    # print('coming back to the table')
-    # nav_client.send_goal(table_x, table_y, table_theta)
-
-    # TODO: go to new table
-    print('going to second table')
-    nav_client.send_goal(-1.196, table_y, -math.pi/2)
-
-    # TODO: place the can
-    pick_and_place_configuration()
-    set_up_planning_scene()
+    # scan environment with octomap
+    # wait for octomap to catch up
+    print("waiting for octomap to refresh")
+    rospy.wait_for_service('/clear_octomap') #this will stop your code until the clear octomap service starts running
+    clear_octomap = rospy.ServiceProxy('/clear_octomap', Empty)
+    clear_octomap()
+    # swing the head around to build the octomap
+    pan_angles = (head.MAX_PAN, math.pi/4, 0, -math.pi/4, head.MIN_PAN)
+    tilt_angles = (0, math.pi/4)
+    for pa in pan_angles:
+        for ta in tilt_angles:
+            head.pan_tilt(pa, ta)
+            time.sleep(1)
+    # move the head to the right angle
+    print("moving the head")
+    head.pan_tilt(0, 0.3)
+    
     # run the place routine
     print("placing")
-    place.main(x=1.25, y=0.0, z=0.75)
+    place.main(x=0.85, y=0.0, z=0.85)
 
+    print("tucking the arm")
     arm.tuck()
 
     # finish up
