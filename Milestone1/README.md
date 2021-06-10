@@ -14,7 +14,7 @@ The following sections explain how the robot is to grasp and place the can.
 - Move the robot using teleop in front of the can
 - Run the pick_and_palce node
     - This node will call three nodes (grasp.py, place.py, stow.py)
-    grasp.py
+    ## grasp.py
         - Take an image of the can
         - Threshold the can to find red color
         - Find centroid of the can
@@ -26,11 +26,11 @@ The following sections explain how the robot is to grasp and place the can.
         - Move the gripper forward to the can
         - Close the gripper
         - And finally lift the can off.
-    place.py
+    ## place.py
         - move the arm to the target pose
         - open the gripper
         - lift the arm
-    stow.py
+    ## stow.py
         - move the arm to the stowed position
 ## How To Run
 
