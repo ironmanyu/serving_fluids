@@ -106,12 +106,13 @@ def go_to_pose(pose, move_group, gripper_frame):
     if result:
         # Checking the MoveItErrorCode
         if result.error_code.val == MoveItErrorCodes.SUCCESS:
-            rospy.loginfo("Hello there!")
+            rospy.loginfo("Reached Goal")
         else:
             # If you get to this point please search for:
             # moveit_msgs/MoveItErrorCodes.msg
-            rospy.logerr("Arm goal in state: %s",
-                            move_group.get_move_action().get_state())
+            error_code = move_group.get_move_action().get_state()
+            rospy.logerr("Arm goal in state: %s", error_code)
+            raise RuntimeError("Move It Error:", error_code)
     else:
         rospy.logerr("MoveIt! failure no result returned.")
 
@@ -131,7 +132,10 @@ def main(simulation=False):
     #rospy.Subscriber(color_topic, Image, color_image_callback)
     # Set up your depth subscriber and define its callback
     #rospy.Subscriber(pcl_topic, PointCloud2, ptcloud_callback)
-    msg = rospy.wait_for_message(color_topic,Image)
+
+    for i in range(3):
+        msg = rospy.wait_for_message(color_topic,Image)
+    
     print("Received a color image!")
     try:
         # Convert your ROS Image message to OpenCV2

@@ -33,6 +33,7 @@ TODO: update this with final instructions for milestone 3
 2. Run `roslaunch serving_fluids demo_irl.launch`
 3. Set the robot's position using "2D Pose Estimate" in RViz
 4. Run `rosrun serving_fluids demo_irl.py`
+5. Place the can in the robot's gripper
 
 ## Working in this repo (pretty meta)
 
